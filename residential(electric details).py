@@ -5,18 +5,18 @@ import pymongo
 from bs4 import BeautifulSoup
 from pprint import pprint
 
-myclient = pymongo.MongoClient('localhost',27017)
-mydb = myclient.people
-mycol = mydb.residential
+client = pymongo.MongoClient('localhost',27017)
+database = client.people
+collection = database.residential
 
 class Information(object) :
-    def __init__(self,main_info,list_of_plans,plans ):
-        self.main_info = main_info
+    def __init__(self,req_plan_info,list_of_plans,plans ):
+        self.main_info = req_plan_info
         self.list_of_plans = list_of_plans
         self.plans = plans
 
     def func(self):
-        main_info = {}
+        req_plan_info = {}
         list_of_plans = []
         plans = {}
 
@@ -45,8 +45,8 @@ class Information(object) :
                         plans['Renewable_energy'] = re.findall(r'\d+\.\d+.', str(content))
                         plans['Renewable_energy'] = plans['Renewable_energy'][2]
                         list_of_plans.append(plans)
-            main_info[i] = list_of_plans
-        print(main_info)
-        mycol.insert_one(main_info)
-all_req_data = Information('main_info','list_of_plans','plans')
-all_req_data.func()
+            req_plan_info[i] = list_of_plans
+        print(req_plan_info)
+        collection.insert_one(req_plan_info)
+data = Information('req_plan_info','list_of_plans','plans')
+data.func()
