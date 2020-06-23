@@ -1,13 +1,9 @@
 import requests
 import urllib3
 import re
-import pymongo
+import connection
 from bs4 import BeautifulSoup
 from pprint import pprint
-
-client = pymongo.MongoClient('localhost',27017)
-database = client.people
-collection = database.residential
 
 class Information(object) :
     def __init__(self,req_plan_info,list_of_plans,plans ):
@@ -47,6 +43,5 @@ class Information(object) :
                         list_of_plans.append(plans)
             req_plan_info[i] = list_of_plans
         print(req_plan_info)
-        collection.insert_one(req_plan_info)
 data = Information('req_plan_info','list_of_plans','plans')
 data.func()
